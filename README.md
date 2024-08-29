@@ -210,3 +210,99 @@ GROUP BY NewTable.product_id;
 - **GROUP BY**: Aggregates results by `product_id` to calculate the average price per product.
 
 ---
+Certainly! Below is the template for your first SQL question, modeled after the example you provided:
+
+---
+
+## SQL Problem:  Project Employees I ( LEETCODE 1075 )
+### Problem Statement
+
+You are given two tables, `Project` and `Employee`. Your task is to calculate the average experience years of all the employees for each project. The `average_years` should be rounded to 2 decimal places.
+
+### **Table: `Project`**
+
+| Column Name   | Type |
+|---------------|------|
+| `project_id`  | int  |
+| `employee_id` | int  |
+
+- `(project_id, employee_id)` is the primary key for this table.
+- `employee_id` is a foreign key to the `Employee` table.
+- Each row of this table indicates that the employee with `employee_id` is working on the project with `project_id`.
+
+### **Table: `Employee`**
+
+| Column Name      | Type    |
+|------------------|---------|
+| `employee_id`     | int     |
+| `name`           | varchar |
+| `experience_years` | int     |
+
+- `employee_id` is the primary key for this table.
+- Each row of this table contains information about one employee, including their experience in years.
+- It is guaranteed that `experience_years` is not `NULL`.
+
+### Example
+
+#### **Input:**
+
+**Table: `Project`**
+
+| project_id | employee_id |
+|------------|-------------|
+| 1          | 101         |
+| 1          | 102         |
+| 2          | 103         |
+| 2          | 104         |
+| 3          | 105         |
+
+**Table: `Employee`**
+
+| employee_id | name     | experience_years |
+|-------------|----------|------------------|
+| 101         | John     | 5                |
+| 102         | Alice    | 10               |
+| 103         | Bob      | 3                |
+| 104         | Charlie  | 8                |
+| 105         | Eve      | 7                |
+
+#### **Output:**
+
+| project_id | average_years |
+|------------|---------------|
+| 1          | 7.50          |
+| 2          | 5.50          |
+| 3          | 7.00          |
+
+#### **Explanation:**
+
+- **Average experience years for project 1**: \(((5 + 10) / 2 = 7.50)\)
+- **Average experience years for project 2**: \(((3 + 8) / 2 = 5.50)\)
+- **Average experience years for project 3**: \((7 / 1 = 7.00)\)
+
+### **Solution**
+
+```sql
+SELECT 
+    project_id,
+    ROUND(SUM(experience_years) / COUNT(project_id), 2) AS average_years
+FROM 
+    Project
+LEFT JOIN 
+    Employee 
+ON 
+    Project.employee_id = Employee.employee_id 
+GROUP BY 
+    project_id;
+```
+
+### **Explanation:**
+
+- **LEFT JOIN**: Joins the `Project` table with the `Employee` table based on `employee_id`.
+- **SUM and COUNT**: Calculates the total years of experience for each project and divides it by the number of employees in that project.
+- **ROUND**: Rounds the calculated average to two decimal places.
+- **GROUP BY**: Groups the results by `project_id` to get the average experience years for each project.
+
+--- 
+
+
